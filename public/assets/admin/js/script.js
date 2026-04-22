@@ -106,18 +106,23 @@ document.getElementById("modalTambahSiswa").style.display="none";
 document.getElementById("modalEditSiswa").style.display="none";
 }
 
-function openEditSiswa(id,nis,nama,jk,kelas){
+function openEditSiswa(data){
 
-document.getElementById("modalEditSiswa").style.display="flex";
+    document.getElementById("modalEditSiswa").style.display = "flex";
 
-document.getElementById("edit_nis").value = nis;
-document.getElementById("edit_nama").value = nama;
-document.getElementById("edit_jk").value = jk;
-document.getElementById("edit_kelas").value = kelas;
+    document.getElementById("edit_nis").value = data.nis;
+    document.getElementById("edit_nama").value = data.nama;
+    document.getElementById("edit_jk").value = data.jenis_kelamin;
+    document.getElementById("edit_kelas").value = data.kelas_id;
 
-document.getElementById("formEditSiswa").action =
-"/admin/siswa/"+id;
+    // 🔥 FIX PREVIEW FOTO
+    if (data.foto && data.foto !== "") {
+        document.getElementById("preview_foto").src = "/storage/" + data.foto;
+    } else {
+        document.getElementById("preview_foto").src = "/images/default.png";
+    }
 
+    document.getElementById("formEditSiswa").action = "/admin/siswa/" + data.id;
 }
 
 //Guru

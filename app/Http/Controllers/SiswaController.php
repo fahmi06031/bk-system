@@ -19,12 +19,17 @@ class SiswaController extends Controller
 
     public function store(Request $request)
     {
+        // DEBUG (aktifkan kalau mau cek)
+        // dd($request->all());
+
         // VALIDASI
         $request->validate([
             'nis' => 'required',
             'nama' => 'required',
             'jenis_kelamin' => 'required',
             'kelas_id' => 'required',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -32,7 +37,9 @@ class SiswaController extends Controller
             'nis',
             'nama',
             'jenis_kelamin',
-            'kelas_id'
+            'kelas_id',
+            'tanggal_lahir',
+            'alamat'
         ]);
 
         // UPLOAD FOTO
@@ -49,12 +56,13 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::findOrFail($id);
 
-        // VALIDASI
         $request->validate([
             'nis' => 'required',
             'nama' => 'required',
             'jenis_kelamin' => 'required',
             'kelas_id' => 'required',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -62,18 +70,18 @@ class SiswaController extends Controller
             'nis',
             'nama',
             'jenis_kelamin',
-            'kelas_id'
+            'kelas_id',
+            'tanggal_lahir',
+            'alamat'
         ]);
 
-        // CEK FOTO BARU
+        // FOTO BARU
         if ($request->hasFile('foto')) {
 
-            // HAPUS FOTO LAMA
             if ($siswa->foto) {
                 Storage::disk('public')->delete($siswa->foto);
             }
 
-            // SIMPAN FOTO BARU
             $data['foto'] = $request->file('foto')->store('siswa', 'public');
         }
 
@@ -86,7 +94,6 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::findOrFail($id);
 
-        // HAPUS FOTO
         if ($siswa->foto) {
             Storage::disk('public')->delete($siswa->foto);
         }

@@ -51,15 +51,18 @@
 
           <td style="display:flex;gap:10px;">
 
-            <button onclick="openEditSiswa(
-'{{$s->id}}',
-'{{$s->nis}}',
-'{{$s->nama}}',
-'{{$s->jenis_kelamin}}',
-'{{$s->kelas_id}}'
-)" style="background:#3C91E6;color:white;border:none;padding:5px 10px;border-radius:6px;">
-              Edit
-            </button>
+
+<button onclick='openEditSiswa({
+    id: "{{$s->id}}",
+    nis: "{{$s->nis}}",
+    nama: "{{$s->nama}}",
+    jenis_kelamin: "{{$s->jenis_kelamin}}",
+    kelas_id: "{{$s->kelas_id}}",
+    foto: "{{$s->foto}}"
+})'
+style="background:#3C91E6;color:white;border:none;padding:5px 10px;border-radius:6px;">
+Edit
+</button>
 
 
             <form action="/admin/siswa/{{$s->id}}" method="POST">
@@ -86,7 +89,15 @@
   </div>
 </div>
 
-
+@if ($errors->any())
+<div style="background:#ffdddd;padding:10px;margin-bottom:10px;border-radius:6px;">
+    <ul style="margin:0;padding-left:20px;color:red;">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 {{-- MODAL TAMBAH SISWA --}}
 
 <div id="modalTambahSiswa" class="modal">
@@ -209,7 +220,7 @@
           <label>Foto Siswa</label><br>
 
           <div style="display:flex; justify-content:center; margin-block-end: 30px;">
-            <img id="preview_foto" src="{{ asset('storage/'.$s->foto) }}" style="width:100px;height:100px;object-fit:cover;border-radius:50%;">
+           <img id="preview_foto" src="" style="width:100px;height:100px;object-fit:cover;border-radius:50%;">
           </div>
 
           <!-- Input File -->
