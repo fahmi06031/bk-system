@@ -1,0 +1,1 @@
+{{-- layouts/user.blade.php --}}
