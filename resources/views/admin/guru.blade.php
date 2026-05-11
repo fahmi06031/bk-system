@@ -8,10 +8,16 @@
     <h1>Data Guru</h1>
   </div>
 
-  <button class="btn-download" onclick="openTambahGuru()">
-    <i class='bx bx-plus'></i>
-    <span class="text">Tambah Guru</span>
-  </button>
+  <div style="display:flex;gap:10px;">
+    <button class="btn-download" onclick="ImportModalManager.openModal('modalImportGuru')" style="background: #28a745;">
+      <i class='bx bx-import'></i>
+      <span class="text">Import Excel</span>
+    </button>
+    <button class="btn-download" onclick="openTambahGuru()">
+      <i class='bx bx-plus'></i>
+      <span class="text">Tambah Guru</span>
+    </button>
+  </div>
 
 </div>
 
@@ -41,7 +47,11 @@
           <td>
 
             @if($g->foto)
-            <img src="{{ asset('storage/'.$g->foto) }}" width="40">
+            <img src="{{ asset('storage/'.$g->foto) }}" width="40" style="border-radius:50%; width:36px; height:36px; object-fit:cover;">
+            @else
+            <div class="avatar-inisial table-avatar" style="background: {{ '#' . substr(md5($g->nama), 0, 6) }};">
+              {{ substr($g->nama, 0, 1) }}
+            </div>
             @endif
 
           </td>
@@ -92,6 +102,9 @@ style="background:#3C91E6;color:white;border:none;padding:5px 10px;border-radius
 </div>
 
 
+@endsection
+
+@section('modals')
 {{-- MODAL TAMBAH GURU --}}
 
 <div id="modalTambahGuru" class="modal">
@@ -291,6 +304,48 @@ style="background:#3C91E6;color:white;border:none;padding:5px 10px;border-radius
 
   </div>
 
+</div>
+
+{{-- MODAL IMPORT GURU --}}
+<div id="modalImportGuru" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Import Data Guru (Excel)</h2>
+      <button type="button" onclick="ImportModalManager.closeModal('modalImportGuru')" class="modal-close">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+
+    <div style="background: #e8f4f8; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3C91E6;">
+      <div style="font-weight: 600; margin-bottom: 8px; color: #1a5a7a;">Format yang Diperlukan:</div>
+      <div style="font-size: 13px; color: #333; line-height: 1.6;">
+        <strong>Kolom:</strong> NIP | Nama | Email | No HP<br>
+        <strong>Contoh:</strong> 198501151234567890 | Ibu Siti | siti@mail.com | 081234567890<br>
+        <strong>Catatan:</strong> NIP harus 18 digit
+      </div>
+      <a href="{{ url('templates/template_guru.xlsx') }}" class="btn-download" style="display: inline-block; margin-top: 10px; background: #3C91E6; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none; font-size: 13px;">
+        <i class='bx bx-download'></i> Download Template
+      </a>
+    </div>
+
+    <form method="POST" action="/admin/guru/import" enctype="multipart/form-data" onsubmit="ImportModalManager.handleSubmit(this)">
+      @csrf
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>File Excel (.xlsx, .xls, .csv)</label>
+          <input type="file" name="file" required accept=".xlsx, .xls, .csv">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="ImportModalManager.closeModal('modalImportGuru')" class="btn-cancel">
+          Batal
+        </button>
+        <button type="submit" class="btn-save" style="background: #28a745;">
+          Import
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 @endsection

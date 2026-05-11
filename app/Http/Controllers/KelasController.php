@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\KelasImport;
 
 class KelasController extends Controller
 {
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        try {
+            Excel::import(new KelasImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data kelas berhasil diimport');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat import data: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         $kelas = Kelas::latest()->get();

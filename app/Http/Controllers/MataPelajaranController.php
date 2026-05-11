@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 use App\Models\MataPelajaran;
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\MataPelajaranImport;
 
 class MataPelajaranController extends Controller
 {
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        try {
+            Excel::import(new MataPelajaranImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data mata pelajaran berhasil diimport');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat import data: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         $mapel = MataPelajaran::with('guru')->get();

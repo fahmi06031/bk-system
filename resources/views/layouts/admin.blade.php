@@ -28,7 +28,11 @@
 
 </section>
 
+{{-- TEMPAT UNTUK MODALS (AGAR TAMPIL DI ATAS SEMUA) --}}
+@yield('modals')
+
 <script src="{{ asset('assets/admin/js/script.js') }}"></script>
+<script src="{{ asset('assets/admin/js/import-modal.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if(session('success'))
@@ -38,6 +42,45 @@ Swal.fire({
     title: 'Berhasil',
     text: "{{ session('success') }}",
     confirmButtonColor: '#3085d6',
+    showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+    }
+});
+</script>
+@endif
+
+@if(session('error'))
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Gagal',
+    text: "{{ session('error') }}",
+    confirmButtonColor: '#d33',
+    showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+    }
+});
+</script>
+@endif
+
+@if($errors->any())
+<script>
+let errorMessage = '';
+@foreach($errors->all() as $error)
+    errorMessage += '• {{ $error }}\n';
+@endforeach
+
+Swal.fire({
+    icon: 'error',
+    title: 'Validasi Error',
+    text: errorMessage,
+    confirmButtonColor: '#d33',
     showClass: {
         popup: 'animate__animated animate__fadeInDown'
     },

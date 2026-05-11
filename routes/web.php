@@ -49,19 +49,23 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/siswa',[SiswaController::class,'index']);
     Route::post('/siswa',[SiswaController::class,'store']);
+    Route::post('/siswa/import',[SiswaController::class,'import']);
     Route::put('/siswa/{id}',[SiswaController::class,'update']);
     Route::delete('/siswa/{id}',[SiswaController::class,'destroy']);
 
     Route::get('/guru',[GuruController::class,'index']);
     Route::post('/guru',[GuruController::class,'store']);
+    Route::post('/guru/import',[GuruController::class,'import']);
     Route::put('/guru/{id}',[GuruController::class,'update']);
     Route::delete('/guru/{id}',[GuruController::class,'destroy']);
 
     Route::get('/kelas',[KelasController::class,'index']);
     Route::post('/kelas',[KelasController::class,'store']);
+    Route::post('/kelas/import',[KelasController::class,'import']);
 
     Route::get('/mata-pelajaran',[MataPelajaranController::class,'index']);
     Route::post('/mata-pelajaran',[MataPelajaranController::class,'store']);
+    Route::post('/mata-pelajaran/import',[MataPelajaranController::class,'import']);
     Route::put('/mata-pelajaran/{id}',[MataPelajaranController::class,'update']);
     Route::delete('/mata-pelajaran/{id}',[MataPelajaranController::class,'destroy']);
 

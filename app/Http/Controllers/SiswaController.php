@@ -6,9 +6,24 @@ use App\Models\Siswa;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaImport;
 
 class SiswaController extends Controller
 {
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        try {
+            Excel::import(new SiswaImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data siswa berhasil diimport');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat import data: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         $siswa = Siswa::with('kelas')->get();

@@ -5,9 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Guru;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\GuruImport;
 
 class GuruController extends Controller
 {
+    public function import(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+            ], [
+                'file.required' => 'File harus dipilih',
+                'file.mimes' => 'Format file harus XLSX, XLS, atau CSV',
+                'file.max' => 'Ukuran file maksimal 2MB',
+            ]);
+
+            Excel::import(new GuruImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data guru berhasil diimport!');
+        } catch (\Illuminate\Session\TokenMismatchException $e) {
+            return redirect()->back()->with('csrf_error', 'Sesi telah berakhir. Silakan coba lagi.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal import: ' . $e->getMessage());
+        }
+    }
     public function index()
     {
         $guru = Guru::all();
