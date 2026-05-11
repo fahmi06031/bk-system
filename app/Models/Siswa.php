@@ -34,6 +34,6 @@ class Siswa extends Model
 
     public function hasilPrediksis()
     {
-        return $this->hasMany(HasilPrediksi::class, 'siswa_id');
+        return $this->hasMany(HasilPrediksi::class, 'nis', 'nis');
     }
 }
