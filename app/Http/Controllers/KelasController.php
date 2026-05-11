@@ -56,8 +56,15 @@ class KelasController extends Controller
 
     public function destroy($id)
     {
-        Kelas::destroy($id);
+        $kelas = Kelas::withCount('siswa')->findOrFail($id);
 
-        return redirect()->back();
+        // Cek apakah masih ada siswa yang terdaftar di kelas ini
+        if ($kelas->siswa_count > 0) {
+            return redirect()->back()->with('error', 'Tidak dapat menghapus kelas "' . $kelas->nama_kelas . '" karena masih ada ' . $kelas->siswa_count . ' siswa yang terdaftar di kelas ini.');
+        }
+
+        $kelas->delete();
+
+        return redirect()->back()->with('success', 'Data kelas berhasil dihapus');
     }
 }

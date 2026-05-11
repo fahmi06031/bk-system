@@ -82,7 +82,7 @@ style="background:#3C91E6;color:white;border:none;padding:5px 10px;border-radius
               @csrf
               @method('DELETE')
 
-              <button style="background:red;color:white;border:none;padding:5px 10px;border-radius:6px;">
+              <button type="button" onclick="confirmDelete(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:6px;">
                 Hapus
               </button>
 

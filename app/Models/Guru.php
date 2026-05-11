@@ -15,4 +15,12 @@ class Guru extends Model
         'no_hp',
         'foto'
     ];
+
+    /**
+     * Relasi: Guru mengajar beberapa Mata Pelajaran
+     */
+    public function mataPelajarans()
+    {
+        return $this->hasMany(MataPelajaran::class, 'guru_id');
+    }
 }

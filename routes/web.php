@@ -62,6 +62,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/kelas',[KelasController::class,'index']);
     Route::post('/kelas',[KelasController::class,'store']);
     Route::post('/kelas/import',[KelasController::class,'import']);
+    Route::put('/kelas/{id}',[KelasController::class,'update']);
+    Route::delete('/kelas/{id}',[KelasController::class,'destroy']);
 
     Route::get('/mata-pelajaran',[MataPelajaranController::class,'index']);
     Route::post('/mata-pelajaran',[MataPelajaranController::class,'store']);

@@ -107,7 +107,22 @@ class SiswaController extends Controller
 
     public function destroy($id)
     {
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::withCount(['pelanggarans', 'catatanKonselings', 'hasilPrediksis'])->findOrFail($id);
+
+        $related = [];
+        if ($siswa->pelanggarans_count > 0) {
+            $related[] = $siswa->pelanggarans_count . ' data pelanggaran';
+        }
+        if ($siswa->catatan_konselings_count > 0) {
+            $related[] = $siswa->catatan_konselings_count . ' catatan konseling';
+        }
+        if ($siswa->hasil_prediksis_count > 0) {
+            $related[] = $siswa->hasil_prediksis_count . ' hasil prediksi';
+        }
+
+        if (!empty($related)) {
+            return redirect()->back()->with('error', 'Tidak dapat menghapus siswa "' . $siswa->nama . '" karena masih memiliki: ' . implode(', ', $related) . '. Hapus data terkait terlebih dahulu.');
+        }
 
         if ($siswa->foto) {
             Storage::disk('public')->delete($siswa->foto);

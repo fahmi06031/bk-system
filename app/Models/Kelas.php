@@ -14,4 +14,12 @@ class Kelas extends Model
         'jurusan',
         'tahun_ajaran'
     ];
+
+    /**
+     * Relasi: Kelas memiliki banyak Siswa
+     */
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'kelas_id');
+    }
 }

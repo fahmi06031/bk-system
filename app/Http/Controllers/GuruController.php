@@ -102,7 +102,12 @@ class GuruController extends Controller
 
     public function destroy($id)
     {
-        $guru = Guru::findOrFail($id);
+        $guru = Guru::withCount('mataPelajarans')->findOrFail($id);
+
+        // Cek apakah guru masih mengajar mapel
+        if ($guru->mata_pelajarans_count > 0) {
+            return redirect()->back()->with('error', 'Tidak dapat menghapus guru "' . $guru->nama . '" karena masih mengajar ' . $guru->mata_pelajarans_count . ' mata pelajaran.');
+        }
 
         // HAPUS FOTO
         if ($guru->foto) {
