@@ -39,14 +39,21 @@
 <script>
 Swal.fire({
     icon: 'success',
-    title: 'Berhasil',
+    title: 'Berhasil!',
     text: "{{ session('success') }}",
-    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Lanjutkan',
+    confirmButtonColor: '#3C91E6',
+    customClass: {
+        popup: 'custom-swal-popup',
+        title: 'custom-swal-title',
+        htmlContainer: 'custom-swal-text',
+        confirmButton: 'custom-swal-confirm'
+    },
     showClass: {
-        popup: 'animate__animated animate__fadeInDown'
+        popup: 'animate__animated animate__zoomIn animate__faster'
     },
     hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
+        popup: 'animate__animated animate__zoomOut animate__faster'
     }
 });
 </script>
@@ -56,14 +63,15 @@ Swal.fire({
 <script>
 Swal.fire({
     icon: 'error',
-    title: 'Gagal',
+    title: 'Gagal!',
     text: "{{ session('error') }}",
-    confirmButtonColor: '#d33',
-    showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
+    confirmButtonText: 'Tutup',
+    confirmButtonColor: '#DB504A',
+    customClass: {
+        popup: 'custom-swal-popup animate__animated animate__shakeX animate__faster',
+        title: 'custom-swal-title',
+        htmlContainer: 'custom-swal-text',
+        confirmButton: 'custom-swal-confirm'
     }
 });
 </script>
@@ -80,12 +88,13 @@ Swal.fire({
     icon: 'error',
     title: 'Validasi Error',
     text: errorMessage,
-    confirmButtonColor: '#d33',
-    showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
+    confirmButtonText: 'Tutup',
+    confirmButtonColor: '#DB504A',
+    customClass: {
+        popup: 'custom-swal-popup animate__animated animate__shakeX animate__faster',
+        title: 'custom-swal-title',
+        htmlContainer: 'custom-swal-text',
+        confirmButton: 'custom-swal-confirm'
     }
 });
 </script>
@@ -101,13 +110,26 @@ let form = button.closest("form");
 
 Swal.fire({
 title: 'Yakin ingin menghapus?',
-text: "Data tidak bisa dikembalikan!",
+text: "Data yang dihapus tidak bisa dikembalikan!",
 icon: 'warning',
 showCancelButton: true,
-confirmButtonColor: '#d33',
-cancelButtonColor: '#3085d6',
-confirmButtonText: 'Ya, hapus',
-cancelButtonText: 'Batal'
+confirmButtonColor: '#DB504A',
+cancelButtonColor: '#AAAAAA',
+confirmButtonText: 'Ya, hapus!',
+cancelButtonText: 'Batal',
+customClass: {
+    popup: 'custom-swal-popup',
+    title: 'custom-swal-title',
+    htmlContainer: 'custom-swal-text',
+    confirmButton: 'custom-swal-confirm',
+    cancelButton: 'custom-swal-cancel'
+},
+showClass: {
+    popup: 'animate__animated animate__zoomIn animate__faster'
+},
+hideClass: {
+    popup: 'animate__animated animate__zoomOut animate__faster'
+}
 }).then((result) => {
 
 if (result.isConfirmed) {
@@ -117,5 +139,58 @@ form.submit();
 });
 
 }
+
+// GLOBAL CONFIRMATION FOR SAVE (ADD/EDIT)
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        const isDelete = form.querySelector('input[name="_method"][value="DELETE"]');
+        const action = form.getAttribute('action') || '';
+        const isImport = action.includes('import');
+        const isProses = action.includes('proses'); // Form proses tidak perlu konfirmasi ganda
+        const hasNoConfirm = form.classList.contains('no-confirm');
+        
+        if (!isDelete && !isImport && !isProses && !hasNoConfirm) {
+            form.addEventListener('submit', function(e) {
+                // Biarkan submit jika sudah dikonfirmasi
+                if (form.dataset.confirmed === 'true') {
+                    return; 
+                }
+
+                e.preventDefault();
+                
+                Swal.fire({
+                    title: 'Simpan Data?',
+                    text: "Pastikan data yang Anda masukkan sudah benar!",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3C91E6',
+                    cancelButtonColor: '#AAAAAA',
+                    confirmButtonText: 'Ya, Simpan!',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'custom-swal-popup',
+                        title: 'custom-swal-title',
+                        htmlContainer: 'custom-swal-text',
+                        confirmButton: 'custom-swal-confirm',
+                        cancelButton: 'custom-swal-cancel'
+                    },
+                    showClass: {
+                        popup: 'animate__animated animate__zoomIn animate__faster'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__zoomOut animate__faster'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.dataset.confirmed = 'true';
+                        form.submit();
+                    }
+                });
+            });
+        }
+    });
+});
 
 </script>

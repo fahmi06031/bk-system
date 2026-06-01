@@ -37,7 +37,7 @@ class KelasController extends Controller
             'tahun_ajaran' => $request->tahun_ajaran
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data kelas berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id)
@@ -51,7 +51,7 @@ class KelasController extends Controller
             'tahun_ajaran' => $request->tahun_ajaran
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data kelas berhasil diupdate!');
     }
 
     public function destroy($id)

@@ -774,3 +774,103 @@ width:36px;
 height:36px;
 font-size:14px;
 }
+
+/* =========================================================================
+   CUSTOM SWEETALERT2 STYLING (PREMIUM LOOK)
+   ========================================================================= */
+.swal2-popup.custom-swal-popup {
+    border-radius: 20px !important;
+    padding: 2em !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark .swal2-popup.custom-swal-popup {
+    background: rgba(12, 12, 30, 0.95) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--dark) !important;
+}
+
+body.dark .swal2-title, body.dark .swal2-html-container {
+    color: #FBFBFB !important;
+}
+
+.custom-swal-title {
+    font-family: var(--poppins) !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: var(--dark) !important;
+    margin-bottom: 10px !important;
+}
+
+.custom-swal-text {
+    font-family: var(--lato) !important;
+    font-size: 15px !important;
+    color: #555 !important;
+    margin-bottom: 20px !important;
+}
+
+body.dark .custom-swal-text {
+    color: #aaa !important;
+}
+
+.custom-swal-confirm {
+    border-radius: 30px !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
+    font-family: var(--poppins) !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 15px rgba(60, 145, 230, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.custom-swal-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(60, 145, 230, 0.4) !important;
+}
+
+.custom-swal-cancel {
+    border-radius: 30px !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
+    font-family: var(--poppins) !important;
+    transition: all 0.3s ease !important;
+    color: #333 !important;
+}
+
+body.dark .custom-swal-cancel {
+    color: #fff !important;
+    background: #555 !important;
+}
+
+.custom-swal-cancel:hover {
+    background-color: #d1d1d1 !important;
+    transform: translateY(-2px) !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #a5dc86 !important;
+}
+
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    background-color: #a5dc86 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(165, 220, 134, 0.3) !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #f8bb86 !important;
+    color: #f8bb86 !important;
+}
+
+/* Modal backdrop overlay */
+.swal2-container.swal2-backdrop-show {
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
